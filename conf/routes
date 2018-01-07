@@ -14,3 +14,8 @@ POST    /insert/user                 controllers.Application.userPost
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#delivery addreses
+GET   /delivery-addresses/:userId/list   controllers.DeliveryAddressController.list(userId: Long)
+POST /delivery-addresses/:userId   controllers.DeliveryAddressController.deliveryAddressPost(userId: Long)
+GET /delivery-addresses/:userId   controllers.DeliveryAddressController.deliveryAddressGet(userId: Long)
