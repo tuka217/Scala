@@ -8,16 +8,16 @@
           <th>Username</th>
           <th>Email</th>
           <th>Password</th>
+          <th>Details</th>
         </tr>
       @for(u <- users){
       <tr>
         <td>@u.username</td>
         <td>@u.email</td>
         <td>@u.password</td>
+        <td><a href='@routes.DeliveryAddressController.list(u.id)'>Details</a></td>
       </tr>
       }
     </table>
   </div>
-
-</div>
 }

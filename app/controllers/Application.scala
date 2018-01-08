@@ -1,6 +1,6 @@
 package controllers
 
-import dao.UserDAO
+import dao.UsersDaoImpl
 import javax.inject.Inject
 
 import models.User
@@ -20,7 +20,7 @@ import play.api.data.Forms._
 import slick._
 
 class Application @Inject() (
-                              userDao: UserDAO,
+                              userDao: UsersDaoImpl,
                               messagesAction: MessagesActionBuilder,
                               controllerComponents: ControllerComponents
                             )(implicit executionContext: ExecutionContext) extends AbstractController(controllerComponents) with play.api.i18n.I18nSupport {
@@ -75,12 +75,12 @@ class Application @Inject() (
         }
   })
 
-
   val userForm = Form(
     mapping(
       "username" -> nonEmptyText.verifying(usernameCheckConstraint),
       "email" -> email.verifying(emailCheckConstraint),
-      "password" -> nonEmptyText(minLength = 5).verifying(passwordCheckConstraint)
+      "password" -> nonEmptyText(minLength = 5).verifying(passwordCheckConstraint),
+      "id" ->  ignored(23L)
     )(User.apply)(User.unapply)
   )
 
@@ -98,7 +98,7 @@ class Application @Inject() (
 
       },
       userData => {
-        val user: User = models.User(userData.username, userData.email, userData.password)
+        val user: User = models.User(userData.username, userData.email, userData.password, 0)
         userDao.insert(user).map(_ => Redirect(routes.Application.index))
       }
     )
