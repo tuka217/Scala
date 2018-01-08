@@ -11,6 +11,7 @@
                 <th>City</th>
                 <th>Street</th>
                 <th>Postal code</th>
+                <th></th>
             </tr>
             @for(da <- deliveryAddresses) {
                 <tr>
@@ -20,6 +21,7 @@
                     <td>@da.city</td>
                     <td>@da.street</td>
                     <td>@da.postalcode</td>
+                    <td><a href='@routes.DeliveryAddressController.deliveryAddressGetUpdate(da.id)'>Edit</a></td>
                 </tr>
             }
         </table>

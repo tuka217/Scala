@@ -27,6 +27,7 @@ class DeliveryAddressController @Inject() (
 
   val deliveryAddressForm = Form(
     mapping(
+      "id" -> ignored(23L),
       "firstname" -> nonEmptyText,
       "lastname" -> nonEmptyText,
       "street" -> nonEmptyText,
@@ -41,7 +42,6 @@ class DeliveryAddressController @Inject() (
     deliveryAddressForm.bindFromRequest.fold(
       formWithErrors => {
 
-        println("potato")
         Future {
           BadRequest(views.html.createDeliveryAddress(formWithErrors, userId))
         }(executionContext)
@@ -49,6 +49,7 @@ class DeliveryAddressController @Inject() (
       },
       deliveryAddressData => {
         val deliveryAddress: DeliveryAddress = DeliveryAddress(
+          0,
           deliveryAddressData.firstName,
           deliveryAddressData.lastName,
           deliveryAddressData.street,
@@ -68,5 +69,33 @@ class DeliveryAddressController @Inject() (
 
   def list(userId: Long) = Action.async { implicit request =>
     deliveryAddressDAO.findByUserId(userId).map { case (deliveryAddresses) => Ok(views.html.listOfDeliveryAddresses(deliveryAddresses, userId)) }
+  }
+
+  val Home = Redirect(routes.Application.index())
+
+  def deliveryAddressPostUpdate(id: Long) = Action.async { implicit request =>
+    deliveryAddressForm.bindFromRequest.fold(
+      formWithErrors => {
+
+        Future {
+          BadRequest(views.html.editDeliveryAddress(formWithErrors, id))
+        }(executionContext)
+
+      },
+
+    deliveryAddressData => {
+      for {
+        _ <- deliveryAddressDAO.update(id, deliveryAddressData)
+      } yield Home.flashing("success" -> "delivery address has been updated")
+    }
+    )
+  }
+
+  def deliveryAddressGetUpdate(id: Long) = Action.async { implicit request =>
+
+    deliveryAddressDAO.findById(id).map {
+      case Some(deliveryAddress) => Ok(views.html.editDeliveryAddress(deliveryAddressForm.fill(deliveryAddress), id))
+      case None => NotFound
+    }
   }
 }
