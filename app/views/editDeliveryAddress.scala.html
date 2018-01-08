@@ -1,10 +1,10 @@
-@(userForm: Form[DeliveryAddress], userId: Long)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+@(userForm: Form[DeliveryAddress], deliveryAddressId: Long)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 @import helper._
 
 <div>
     <div id="delivery-address">
         <h2>New delivery Address:</h2>
-        @helper.form(action = routes.DeliveryAddressController.deliveryAddressPost(userId)) {
+        @helper.form(action = routes.DeliveryAddressController.deliveryAddressPostUpdate(deliveryAddressId)) {
             @helper.inputText(userForm("firstname"))
             @helper.inputText(userForm("lastname"))
             @helper.inputText(userForm("country"))
