@@ -71,7 +71,7 @@ class DeliveryAddressController @Inject() (
     deliveryAddressDAO.findByUserId(userId).map { case (deliveryAddresses) => Ok(views.html.listOfDeliveryAddresses(deliveryAddresses, userId)) }
   }
 
-  val Home = Redirect(routes.Application.index())
+  val UsersList = Redirect(routes.UserController.list())
 
   def deliveryAddressPostUpdate(id: Long) = Action.async { implicit request =>
     deliveryAddressForm.bindFromRequest.fold(
@@ -86,7 +86,7 @@ class DeliveryAddressController @Inject() (
     deliveryAddressData => {
       for {
         _ <- deliveryAddressDAO.update(id, deliveryAddressData)
-      } yield Home.flashing("success" -> "delivery address has been updated")
+      } yield UsersList.flashing("success" -> "delivery address has been updated")
     }
     )
   }

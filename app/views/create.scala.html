@@ -4,7 +4,7 @@
 <div>
     <div id="users">
         <h2>Insert a user here:</h2>
-        @helper.form(action = routes.Application.userPost()) {
+        @helper.form(action = routes.UserController.userPost()) {
         @helper.inputText(userForm("username"))
         @helper.inputText(userForm("email"))
         @helper.inputPassword(userForm("password"))
