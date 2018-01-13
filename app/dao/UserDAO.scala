@@ -47,4 +47,8 @@ class UsersDaoImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProv
     db.run(Users.filter(_.username === usernm).result).map(_.headOption)
   }
 
+  def findByEmailAndPassword(mail: String, pass: String) = {
+    db.run(Users.filter(_.email === mail).filter(_.password === pass).result).map(_.headOption)
+  }
+
 }

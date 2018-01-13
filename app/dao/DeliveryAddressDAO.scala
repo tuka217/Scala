@@ -49,12 +49,12 @@ class DeliveryAddressDAO  @Inject() (protected val dbConfigProvider: DatabaseCon
   }
 
   def insert(deliveryAddress: DeliveryAddress): Future[Unit] = {
-    db.run(deliveryAddresses += deliveryAddress).map { _ => () }
+    db.run(deliveryAddresses += deliveryAddress).map(_ => ())
   }
 
   def update(id: Long, deliveryAddress: DeliveryAddress): Future[Unit] = {
-    val deliveryAddressToUpdate: DeliveryAddress = deliveryAddress.copy(id)
-    db.run(deliveryAddresses.filter(_.id === id).update(deliveryAddressToUpdate)).map(_ => ())
+//    val deliveryAddressToUpdate: DeliveryAddress = deliveryAddress.copy(id)
+//    db.run(deliveryAddresses.filter(_.id === id).update(deliveryAddressToUpdate)).map(_ => ())
 
     val q = for { da <- deliveryAddresses if da.id === id } yield (da.firstName, da.lastName, da.city, da.country, da.street, da.postalcode)
     val updateAction = q.update(deliveryAddress.firstName, deliveryAddress.lastName, deliveryAddress.city, deliveryAddress.country, deliveryAddress.street, deliveryAddress.postalcode)

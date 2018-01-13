@@ -22,7 +22,7 @@ CREATE TABLE "DELIVERYADDRESS" (
 );
 
 INSERT INTO USER (USERNAME, EMAIL, PASSWORD)
-VALUES ('admin', 'adm@example.com', '12_ad');
+VALUES ('admin', 'adm@example.com', '12_Aa');
 
 # --- !Downs
 

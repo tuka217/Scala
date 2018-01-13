@@ -18,13 +18,16 @@ import scala.concurrent.duration._
 import play.api.mvc._
 import play.api.data.Forms._
 import slick._
+import scala.concurrent.Future
+import scala.util.{Success,Failure}
 
 class UserController @Inject() (
                               userDao: UsersDaoImpl,
                               messagesAction: MessagesActionBuilder,
                               controllerComponents: ControllerComponents
-                            )(implicit executionContext: ExecutionContext) extends AbstractController(controllerComponents) with play.api.i18n.I18nSupport {
+                            )(implicit executionContext2: ExecutionContext) extends AbstractController(controllerComponents) with controllers.BaseController {
 
+  val executionContext = executionContext2
   val hasSpecialCharacter = """[A-Za-z0-9]*""".r
   val noBigLetter = """[a-z0-9]*$""".r
 
@@ -84,8 +87,10 @@ class UserController @Inject() (
     )(User.apply)(User.unapply)
   )
 
-  def list = Action.async {
-    userDao.all().map { case (users) => Ok(views.html.index(users)) }
+  def list = authenticated { implicit request =>
+    var users: Seq[User] = Nil
+    userDao.all().map{case (result) => users = result}
+    Ok(views.html.index(users))
   }
 
   def userPost = Action.async {implicit request =>

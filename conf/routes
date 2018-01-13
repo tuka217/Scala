@@ -13,7 +13,12 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 #delivery addreses
 GET   /delivery-addresses/:userId/list   controllers.DeliveryAddressController.list(userId: Long)
++ nocsrf
 POST /delivery-addresses/:userId   controllers.DeliveryAddressController.deliveryAddressPost(userId: Long)
 GET /delivery-addresses/:userId   controllers.DeliveryAddressController.deliveryAddressGet(userId: Long)
++ nocsrf
 POST /delivery-addresses/edit/:id   controllers.DeliveryAddressController.deliveryAddressPostUpdate(id: Long)
 GET /delivery-addresses/edit/:id   controllers.DeliveryAddressController.deliveryAddressGetUpdate(id: Long)
+
+GET    /login                 controllers.Application.login
+POST    /login               controllers.Application.loginPost
