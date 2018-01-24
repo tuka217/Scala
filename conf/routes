@@ -6,18 +6,20 @@
 # An example controller showing a sample home page
 GET     /                           controllers.Application.index
 
-# User actions
-#GET     /user/:id                   controllers.UserController.show(id: Long)
-GET    /insert/user                 controllers.Application.userGet
-+ nocsrf
-POST    /insert/user                 controllers.Application.userPost
-
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 #delivery addreses
-GET   /delivery-addresses/:userId/list   controllers.DeliveryAddressController.list(userId: Long)
-POST /delivery-addresses/:userId   controllers.DeliveryAddressController.deliveryAddressPost(userId: Long)
-GET /delivery-addresses/:userId   controllers.DeliveryAddressController.deliveryAddressGet(userId: Long)
-POST /delivery-addresses/edit/:id   controllers.DeliveryAddressController.deliveryAddressPostUpdate(id: Long)
-GET /delivery-addresses/edit/:id   controllers.DeliveryAddressController.deliveryAddressGetUpdate(id: Long)
+GET   /delivery-addresses/list   controllers.DeliveryAddressController.list(userId: Option[Int])
+POST /delivery-addresses/create        controllers.DeliveryAddressController.deliveryAddressCreatePost(userId: Int)
+GET /delivery-addresses/create       controllers.DeliveryAddressController.deliveryAddressCreateGet(userId: Int)
+POST /delivery-addresses/edit/:id   controllers.DeliveryAddressController.deliveryAddressPostUpdate(id: Int)
+GET /delivery-addresses/edit   controllers.DeliveryAddressController.deliveryAddressGetUpdate(id: Option[Int], userId: Int)
+
+
+GET         /signUp              controllers.AuthenticationController.signUpForm
+POST        /signUp              controllers.AuthenticationController.signUpSubmit
+
+GET         /signIn              controllers.AuthenticationController.signInForm
+POST        /signIn              controllers.AuthenticationController.signInSubmit
+GET         /signOut             controllers.AuthenticationController.signOut
