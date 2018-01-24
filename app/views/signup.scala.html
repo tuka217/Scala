@@ -1,0 +1,16 @@
+@(signUpForm: Form[forms.SignUpFormData.Data])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+    @import helper._
+
+@main("Sign Up!") {
+
+    <div class="jumbotron">
+    @form(action = routes.AuthenticationController.signUpSubmit()) {
+        @helper.inputText(signUpForm("firstName"))
+        @helper.inputText(signUpForm("lastName"))
+        @helper.inputText(signUpForm("email"))
+        @helper.inputPassword(signUpForm("password"))
+        <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+    }
+    </div>
+}

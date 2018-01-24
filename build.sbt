@@ -22,3 +22,19 @@ libraryDependencies += evolutions
 
 // Adds additional packages into conf/routes
 // play.sbt.routes.RoutesKeys.routesImport += "com.anna.binders._"
+
+
+libraryDependencies ++= Seq(
+  "com.mohiva" %% "play-silhouette" % "5.0.0-RC2",
+  "com.mohiva" %% "play-silhouette-password-bcrypt" % "5.0.0-RC2",
+  "com.mohiva" %% "play-silhouette-persistence" % "5.0.0-RC2",
+  "com.mohiva" %% "play-silhouette-crypto-jca" % "5.0.0-RC2",
+  "com.mohiva" %% "play-silhouette-testkit" % "5.0.0-RC2" % "test"
+)
+
+libraryDependencies += "mysql" % "mysql-connector-java" % "6.0.6"
+libraryDependencies += specs2 % Test
+
+libraryDependencies ++= Seq(
+  "net.codingwell" %% "scala-guice" % "4.1.0"
+)

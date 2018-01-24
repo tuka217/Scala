@@ -5,19 +5,20 @@
     <h2>Previously inserted users:</h2>
     <table>
         <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Password</th>
-          <th>Details</th>
+            <th>Email</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Details</th>
         </tr>
       @for(u <- users){
       <tr>
-        <td>@u.username</td>
-        <td>@u.email</td>
-        <td>@u.password</td>
-        <td><a href='@routes.DeliveryAddressController.list(u.id)'>Details</a></td>
+            <td>@u.email</td>
+            <td>@u.firstName</td>
+            <td>@u.lastName</td>
+            <td><a href='@routes.DeliveryAddressController.list(u.id)'>Details</a></td>
       </tr>
       }
     </table>
+    <a href='@routes.AuthenticationController.signOut()'>Sign out</a>
   </div>
 }

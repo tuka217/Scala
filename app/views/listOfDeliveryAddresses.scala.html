@@ -1,12 +1,10 @@
-@(deliveryAddresses: Seq[DeliveryAddress], userId: Long)
+@(deliveryAddresses: Seq[DeliveryAddress], userId: Int)
 
 @main("Delivery addresses database") {
     <div>
         <h2>Delivery addresses for user:</h2>
         <table>
             <tr>
-                <th>First name</th>
-                <th>Last name</th>
                 <th>Country</th>
                 <th>City</th>
                 <th>Street</th>
@@ -15,16 +13,14 @@
             </tr>
             @for(da <- deliveryAddresses) {
                 <tr>
-                    <td>@da.firstName</td>
-                    <td>@da.lastName</td>
                     <td>@da.country</td>
                     <td>@da.city</td>
                     <td>@da.street</td>
                     <td>@da.postalcode</td>
-                    <td><a href='@routes.DeliveryAddressController.deliveryAddressGetUpdate(da.id)'>Edit</a></td>
+                    <td><a href='@routes.DeliveryAddressController.deliveryAddressGetUpdate(da.id, userId)'>Edit</a></td>
                 </tr>
             }
         </table>
-        <td><a href='@routes.DeliveryAddressController.deliveryAddressGet(userId)'>Add new delivery addresses</a></td>
+        <td><a href='@routes.DeliveryAddressController.deliveryAddressCreateGet(userId)'>Add new delivery addresses</a></td>
     </div>
 }
