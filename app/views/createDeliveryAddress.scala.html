@@ -10,8 +10,13 @@
                 @helper.inputText(deliveryAddressForm("city"))
                 @helper.inputText(deliveryAddressForm("street"))
                 @helper.inputText(deliveryAddressForm("postalcode"))
-                <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">Sign In</button>
+                <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">Create</button>
             }
+        </div>
+        <div>
+            <a href='@routes.AuthenticationController.signOut()'>Sign out</a>
+            <br/>
+            <a href="@routes.Application.menu()">Menu</a>
         </div>
     </div>
 }

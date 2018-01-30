@@ -1,16 +1,23 @@
 @(deliveryAddressForm: Form[forms.DeliveryAddressForm.Data], deliveryAddressId: Int)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 @import helper._
+@main("Edit delivery address") {
 
-<div>
-    <div id="delivery-address">
-        <h2>New delivery Address:</h2>
-        @helper.form(action = routes.DeliveryAddressController.deliveryAddressPostUpdate(deliveryAddressId)) {
-            @helper.inputText(deliveryAddressForm("country"))
-            @helper.inputText(deliveryAddressForm("city"))
-            @helper.inputText(deliveryAddressForm("street"))
-            @helper.inputText(deliveryAddressForm("postalcode"))
+    <div>
+        <div id="delivery-address">
+            <h2>New delivery Address:</h2>
+            @helper.form(action = routes.DeliveryAddressController.deliveryAddressPostUpdate(deliveryAddressId)) {
+                @helper.inputText(deliveryAddressForm("country"))
+                @helper.inputText(deliveryAddressForm("city"))
+                @helper.inputText(deliveryAddressForm("street"))
+                @helper.inputText(deliveryAddressForm("postalcode"))
 
-            <input type="submit" value="Submit"/>
-        }
+                <input type="submit" value="Submit"/>
+            }
+        </div>
+        <div>
+            <a href='@routes.AuthenticationController.signOut()'>Sign out</a>
+            <br/>
+            <a href="@routes.Application.menu()">Menu</a>
+        </div>
     </div>
-</div>
+}

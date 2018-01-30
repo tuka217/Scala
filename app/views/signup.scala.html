@@ -3,7 +3,6 @@
     @import helper._
 
 @main("Sign Up!") {
-
     <div class="jumbotron">
     @form(action = routes.AuthenticationController.signUpSubmit()) {
         @helper.inputText(signUpForm("firstName"))

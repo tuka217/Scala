@@ -39,4 +39,12 @@ class Application @Inject() (
   def index =  silhouette.SecuredAction.async { implicit request =>
     userService.all().map { case (users) => Ok(views.html.index(users)) }
   }
+
+  def hello = silhouette.UnsecuredAction { implicit request =>
+    Ok(views.html.hello())
+  }
+
+  def menu =  silhouette.SecuredAction { implicit request =>
+    Ok(views.html.menu())
+  }
 }

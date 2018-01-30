@@ -51,7 +51,9 @@ class AuthenticationController @Inject()(cc: ControllerComponents,
 
         userService.retrieve(LoginInfo(CredentialsProvider.ID, success.email))
           .map {
-            case Some(u:User) => BadRequest(views.html.signup(SignUpFormData.form.fill(success)))
+            case Some(u:User) => {
+              BadRequest(views.html.signup(SignUpFormData.form.fill(success).withError("email", "account with this email already exists")))
+            }
             case None => {
               userService.create(success).flatMap(env.authenticatorService.create(_))
                 .flatMap(env.authenticatorService.init(_))
@@ -59,17 +61,6 @@ class AuthenticationController @Inject()(cc: ControllerComponents,
               AuthenticatorResult(Redirect(routes.AuthenticationController.signInForm))
             }
           }
-
-
-
-//            uo.fold({
-//              userService.create(success).flatMap(env.authenticatorService.create(_))
-//                .flatMap(env.authenticatorService.init(_))
-//                .flatMap(env.authenticatorService.embed(_, Redirect(routes.Application.index())))
-//
-//            })({ _ =>
-//              Future.successful(AuthenticatorResult(Redirect(routes.AuthenticationController.signInForm)))
-//            }))
       })
   }
 
@@ -90,9 +81,9 @@ class AuthenticationController @Inject()(cc: ControllerComponents,
           .flatMap { loginInfo =>
             userService.retrieve(loginInfo).flatMap {
               case Some(user) => for {
-                authenticator <- env.authenticatorService.create(loginInfo).map{case authenticator => authenticator} //.flatMap(env.authenticatorService.init(_))
+                authenticator <- env.authenticatorService.create(loginInfo).map{case authenticator => authenticator}
                 cookie <- env.authenticatorService.init(authenticator)
-                result <- env.authenticatorService.embed(cookie, Redirect(routes.Application.index()))
+                result <- env.authenticatorService.embed(cookie, Redirect(routes.Application.menu()))
               } yield {
                 env.eventBus.publish(LoginEvent(user, request))
                 result
@@ -101,13 +92,13 @@ class AuthenticationController @Inject()(cc: ControllerComponents,
             }
           }.recover {
           case e: Exception =>
-            Redirect(routes.AuthenticationController.signInForm()).flashing("login-error" -> e.getMessage)
+            Redirect(routes.AuthenticationController.signInForm()).flashing("login-error" -> "Wrong credentials!")
         }
       }
     )
   }
 
   def signOut = silhouette.SecuredAction.async { implicit request =>
-    env.authenticatorService.discard(request.authenticator, Redirect(routes.Application.index))
+    env.authenticatorService.discard(request.authenticator, Redirect(routes.Application.hello))
   }
 }

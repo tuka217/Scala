@@ -1,7 +1,9 @@
-@(users: Seq[User])
+@(users: Seq[User])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
 
 @main("User database") {
 <div>
+    <p> @request.flash.get("success")</p>
     <h2>Previously inserted users:</h2>
     <table>
         <tr>
@@ -20,5 +22,7 @@
       }
     </table>
     <a href='@routes.AuthenticationController.signOut()'>Sign out</a>
+    <br/>
+    <a href="@routes.Application.menu()">Menu</a>
   </div>
 }
