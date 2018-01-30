@@ -39,7 +39,7 @@ class DeliveryAddressController @Inject() (
   def deliveryAddressCreatePost(userId: Int) = silhouette.SecuredAction.async { implicit request =>
       DeliveryAddressForm.form.bindFromRequest.fold(
         (hasErrors: Form[DeliveryAddressForm.Data]) => Future.successful(BadRequest(views.html.createDeliveryAddress(hasErrors, userId))),
-        (success: DeliveryAddressForm.Data) => deliveryAddressDao.create(success, userId).map(_ => Redirect(routes.DeliveryAddressController.list(Some(userId))))
+        (success: DeliveryAddressForm.Data) => deliveryAddressDao.create(success, userId).map(_ => Redirect(routes.DeliveryAddressController.list(Some(userId))).flashing("success" -> "delivery address has been added"))
       )
   }
 
@@ -47,7 +47,7 @@ class DeliveryAddressController @Inject() (
     if (request.identity.id == Some(userId)) {
       Ok(views.html.createDeliveryAddress(DeliveryAddressForm.form, userId))
     } else {
-      Redirect(routes.DeliveryAddressController.list(Some(userId)))
+      Redirect(routes.DeliveryAddressController.list(Some(userId))).flashing("auth-error" -> "You are not authorized to perform create action")
     }
   }
 
@@ -80,7 +80,7 @@ class DeliveryAddressController @Inject() (
             case Some(deliveryAddress) => {
 
               if (request.identity.id != Some(userId)) {
-                Redirect(routes.DeliveryAddressController.list(Some(userId)))
+                Redirect(routes.DeliveryAddressController.list(Some(userId))).flashing("auth-error" -> "You are not authorized to perform edit action")
               } else {
                 val formData: DeliveryAddressForm.Data = DeliveryAddressForm.Data(deliveryAddress.street, deliveryAddress.city, deliveryAddress.postalcode, deliveryAddress.country)
                 Ok(views.html.editDeliveryAddress(DeliveryAddressForm.form.fill(formData), id))

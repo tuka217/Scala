@@ -1,7 +1,9 @@
-@(deliveryAddresses: Seq[DeliveryAddress], userId: Int)
+@(deliveryAddresses: Seq[DeliveryAddress], userId: Int)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 
 @main("Delivery addresses database") {
     <div>
+        <p> @request.flash.get("auth-error")</p>
+        <p> @request.flash.get("success")</p>
         <h2>Delivery addresses for user:</h2>
         <table>
             <tr>
@@ -22,5 +24,10 @@
             }
         </table>
         <td><a href='@routes.DeliveryAddressController.deliveryAddressCreateGet(userId)'>Add new delivery addresses</a></td>
+        <div>
+            <a href='@routes.AuthenticationController.signOut()'>Sign out</a>
+            <br/>
+            <a href="@routes.Application.menu()">Menu</a>
+        </div>
     </div>
 }
